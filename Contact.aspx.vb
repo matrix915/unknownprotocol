@@ -143,14 +143,14 @@ Partial Class Contact
     Protected Sub ItemsGrid_ItemCommand(ByVal source As Object, ByVal e As DataGridCommandEventArgs) Handles ItemsGrid.ItemCommand
         If e.CommandName = "Select" Then
 
-            Dim RelationshipID As Integer = Convert.ToInt32(e.Item.Cells(5).Text)
+            Dim RelationshipID As Integer = Convert.ToInt32(e.Item.Cells(6).Text)
             Dim RelationshipEmail As String = String.Empty
             Dim FirstName As String = String.Empty
             Dim MiddleName As String = String.Empty
             Dim LastName As String = String.Empty
             Dim URLOfPicture As String = String.Empty
             Dim LoggedInEmail As String = String.Empty
-            Dim DateTime As String = Date.Now
+            Dim DateTime As String = Date.Now.ToString("yyyy-MM-dd HH:mm:ss")
 
             Dim Connection As SqlConnection = New SqlConnection(ConfigurationManager.ConnectionStrings("SqlDataSource1").ConnectionString)
             Dim Cmd As SqlCommand = New SqlCommand("Select * from tblRegistered WHERE ID = '" & RelationshipID & "'", Connection)
@@ -192,34 +192,43 @@ Partial Class Contact
 
             Next
 
-
-
             If UserID = RelationshipID Then
                 Return
             End If
+
+            Dim drp As DropDownList = CType(e.Item.FindControl("ddlRelationship"), DropDownList)
+
+            Dim relationship As String = "Association"
+            If drp.SelectedValue <> "" Then
+                relationship = drp.SelectedValue
+            End If
+
             Dim InsertCmd As SqlCommand = New SqlCommand("DELETE FROM tblRegisteredUsers WHERE ID='" & UserID & "' AND RelationshipID='" & RelationshipID & "'; INSERT INTO tblRegisteredUsers (ID,RelationshipID,URLOfPicture,FirstName1,MiddleName1,LastName1,LoggedInEmail,RelationshipEmail,Firstname2,MiddleName2,LastName2, FollowUnfollow,Relationships,Approved,DateTime) " &
-        "VALUES ('" & UserID & "', '" & RelationshipID & "','" & URLOfPicture & "','" & FirstName1 & "','" & MiddleName1 & "','" & LastName1 & "','" & LoggedInEmail & "','" & RelationshipEmail & "','" & FirstName2 & "','" & MiddleName2 & "','" & LastName2 & "','Follow','Association', '0','" & DateTime & "');", StatusConnection)
+        "VALUES ('" & UserID & "', '" & RelationshipID & "','" & URLOfPicture & "','" & FirstName1 & "','" & MiddleName1 & "','" & LastName1 & "','" & LoggedInEmail & "','" & RelationshipEmail & "','" & FirstName2 & "','" & MiddleName2 & "','" & LastName2 & "','Follow','" & relationship & "', '0','" & DateTime & "');", StatusConnection)
             'InsertCmd.Connection = StatusConnection
             InsertCmd.ExecuteNonQuery()
 
-            StatusConnection.Close()
+                StatusConnection.Close()
 
-            Dim InitialMailMessage = New MailMessage()
-            InitialMailMessage.IsBodyHtml = True
-            InitialMailMessage.From = New MailAddress("digitalunknownprotocol@gmail.com")
-            InitialMailMessage.To.Add(New MailAddress(LoggedInEmail))
-            InitialMailMessage.Subject = "Unknownprotocol Request"
-            InitialMailMessage.Body = "<p>A request has been sent to you for you to be an aquintences.</p>" &
-                "<a href='http://www.unknownprotocol.us:8080/approveddisapproved.aspx?ID=" & UserID & "&RelationshipID=" & RelationshipID & "&Approve=True'>Approve</a>" &
-                "  <a href='http://www.unknownprotocol.us:8080/approveddisapproved.aspx?ID=" & UserID & "&RelationshipID=" & RelationshipID & "&Approve=False'>Decline</a>" &
-                "  <a href='http://www.unknownprotocol.us:8080/default.aspx?ID=" & UserID & "'>View Profile</a>"
-            Dim IntialSmtpClient = New SmtpClient("www.briandalesinger.me")
-            IntialSmtpClient.ServicePoint.MaxIdleTime = 60000
-            IntialSmtpClient.Timeout = 60000
+                Dim uri As Uri = Context.Request.Url
+                Dim UrlPath As String = uri.Scheme & Uri.SchemeDelimiter & uri.Host & ":" & uri.Port
 
-            IntialSmtpClient.Send(InitialMailMessage)
+                Dim InitialMailMessage = New MailMessage()
+                InitialMailMessage.IsBodyHtml = True
+                InitialMailMessage.From = New MailAddress("digitalunknownprotocol@gmail.com")
+                InitialMailMessage.To.Add(New MailAddress(LoggedInEmail))
+                InitialMailMessage.Subject = "Unknownprotocol Request"
+                InitialMailMessage.Body = "<p>A request has been sent to you for you to be an aquintences.</p>" &
+                "<a href='" & UrlPath & "/approveddisapproved.aspx?ID=" & UserID & "&RelationshipID=" & RelationshipID & "&Approve=True'>Approve</a>" &
+                "  <a href='" & UrlPath & "/approveddisapproved.aspx?ID=" & UserID & "&RelationshipID=" & RelationshipID & "&Approve=False'>Decline</a>" &
+                "  <a href='" & UrlPath & "/default.aspx?ID=" & UserID & "'>View Profile</a>"
+                Dim IntialSmtpClient = New SmtpClient("www.briandalesinger.me")
+                IntialSmtpClient.ServicePoint.MaxIdleTime = 60000
+                IntialSmtpClient.Timeout = 60000
 
-        End If
+                IntialSmtpClient.Send(InitialMailMessage)
+
+            End If
 
         'Response.Redirect("~/")
 
@@ -227,7 +236,7 @@ Partial Class Contact
     Protected Sub btnLogout_Click(sender As Object, e As EventArgs) Handles btnLogout.Click
 
         FormsAuthentication.SignOut()
-        Response.Redirect("http://www.unknownprotocol.us/logon.aspx", True)
+        Response.Redirect("~/logon.aspx", True)
 
     End Sub
 

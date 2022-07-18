@@ -456,7 +456,7 @@ Partial Class _Default
         'Next
         'End If
 
-        'Response.Redirect("http://www.unknownprotocol.me:8080/default.aspx?ID=" & RelationshipID)
+        'Response.Redirect("~/default.aspx?ID=" & RelationshipID)
 
         'If Status = "" Then
         'Response.Redirect("Association.aspx?ID=" & RelationshipID)
@@ -609,19 +609,23 @@ Partial Class _Default
             SqlDataSource1.InsertParameters.Add("Relationships", "Association")
             SqlDataSource1.InsertParameters.Add("FollowUnFollow", "Follow")
             SqlDataSource1.InsertParameters.Add("Approved", 0)
-            SqlDataSource1.InsertParameters.Add("DateTime", Date.Now)
+            SqlDataSource1.InsertParameters.Add("DateTime", Date.Now.ToString("yyyy-MM-dd HH:mm:ss"))
 
             SqlDataSource1.Insert()
         End If
+
+        Dim uri As Uri = Context.Request.Url
+        Dim UrlPath As String = uri.Scheme & Uri.SchemeDelimiter & uri.Host & ":" & uri.Port
+
 
         Dim InitialMailMessage = New MailMessage()
         InitialMailMessage.From = New MailAddress("digitalunknownprotocol@gmail.com")
         InitialMailMessage.To.Add(New MailAddress(LoggedInEmail))
         InitialMailMessage.Subject = "Unknownprotocol Request"
         InitialMailMessage.Body = "<p>A request has been sent to you for you to be an aquintences.</p>" &
-            "<a href='http://www.unknownprotocol.me:8080/approveddisapproved.aspx?ID=" & RelationshipID & "&RelationshipID=" & ID & "&Approve=True'>Approve</a>" &
-            "  <a href='http://www.unknownprotocol.me:8080/approveddisapproved.aspx?ID=" & RelationshipID & "&RelationshipID=" & ID & "&Approve=False'>Decline</a>" &
-            "  <a href='http://www.unknownprotocol.me:8080/default.aspx?ID=" & RelationshipID & "'>View Profile</a>"
+            "<a href='" & UrlPath & "/approveddisapproved.aspx?ID=" & RelationshipID & "&RelationshipID=" & ID & "&Approve=True'>Approve</a>" &
+            "  <a href='" & UrlPath & "/approveddisapproved.aspx?ID=" & RelationshipID & "&RelationshipID=" & ID & "&Approve=False'>Decline</a>" &
+            "  <a href='" & UrlPath & "/default.aspx?ID=" & RelationshipID & "'>View Profile</a>"
         InitialMailMessage.IsBodyHtml = True
         Dim IntialSmtpClient = New SmtpClient("www.briandalesinger.me")
         IntialSmtpClient.ServicePoint.MaxIdleTime = 60000
@@ -635,7 +639,7 @@ Partial Class _Default
         'MailMessage.From = New MailAddress("briandalesinger@yahoo.com")
         'MailMessage.To.Add(New MailAddress(LoggedInEmail))
         'MailMessage.Subject = "Unknownprotocol Request"
-        'MailMessage.Body = ("http://www.unknownprotocol.me:8080/default.aspx?ID=" & RelationshipID) & " Please visit  " & FName & " " & MName & " " & LName & "'s UP page, a request has been sent to you for you to associate with him."
+        'MailMessage.Body = ("~/default.aspx?ID=" & RelationshipID) & " Please visit  " & FName & " " & MName & " " & LName & "'s UP page, a request has been sent to you for you to associate with him."
         'Dim SmtpClient = New SmtpClient("www.briandalesinger.me")
         'SmtpClient.ServicePoint.MaxIdleTime = 60000
         'SmtpClient.Timeout = 60000
@@ -649,7 +653,7 @@ Partial Class _Default
         'MailMessage.From = New MailAddress("briandalesinger@yahoo.com")
         'MailMessage.To.Add(New MailAddress(LoggedInEmail))
         'MailMessage.Subject = "Unknownprotocol Request"
-        'MailMessage.Body = ("http://www.unknownprotocol.me:8080/default.aspx?ID=" & RelationshipID) & " Please visit  " & FName & " " & MName & " " & LName & "'s UP page, a request has been sent to you for you to associate with her."
+        'MailMessage.Body = ("~/default.aspx?ID=" & RelationshipID) & " Please visit  " & FName & " " & MName & " " & LName & "'s UP page, a request has been sent to you for you to associate with her."
         'Dim SmtpClient = New SmtpClient("www.briandalesinger.me")
         'SmtpClient.ServicePoint.MaxIdleTime = 60000
         'SmtpClient.Timeout = 60000
@@ -664,7 +668,7 @@ Partial Class _Default
 
         '(2) Assign the MailMessage's properties
         'mm.Subject = "Unknownprotocol Request"
-        'mm.Body = ("http://www.unknownprotocol.me:8080/default.aspx?ID=" & RelationshipID) & " Please visit User ID number " & RelationshipID & " UP page. "
+        'mm.Body = ("~/default.aspx?ID=" & RelationshipID) & " Please visit User ID number " & RelationshipID & " UP page. "
         'mm.IsBodyHtml = False
 
         '(3) Create the SmtpClient object
@@ -673,7 +677,7 @@ Partial Class _Default
         '(4) Send the MailMessage (will use the Web.config settings)
         'smtp.Send(mm)
 
-        'Response.Redirect("http://www.unknownprotocol.me:8080/default.aspx?ID=" & RelationshipID)
+        'Response.Redirect("~/default.aspx?ID=" & RelationshipID)
 
     End Sub
 
@@ -767,7 +771,7 @@ Partial Class _Default
             'InitialMailMessage.From = New MailAddress("digitalunknownprotocol@gmail.com")
             'InitialMailMessage.To.Add(New MailAddress(EmailNotification))
             'InitialMailMessage.Subject = "Invisable Request"
-            'InitialMailMessage.Body = ("http://www.unknownprotocol.me:8080/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to be Invisable."
+            'InitialMailMessage.Body = ("~/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to be Invisable."
             'Dim IntialSmtpClient = New SmtpClient("www.briandalesinger.me")
             'IntialSmtpClient.ServicePoint.MaxIdleTime = 60000
             'IntialSmtpClient.Timeout = 60000
@@ -805,7 +809,7 @@ Partial Class _Default
             'InitialMailMessage.From = New MailAddress("digitalunknownprotocol@gmail.com")
             'InitialMailMessage.To.Add(New MailAddress(EmailNotification))
             'InitialMailMessage.Subject = "Association Request"
-            'InitialMailMessage.Body = ("http://www.unknownprotocol.me:8080/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to be an Association."
+            'InitialMailMessage.Body = ("~/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to be an Association."
             'Dim IntialSmtpClient = New SmtpClient("www.briandalesinger.me")
             'IntialSmtpClient.ServicePoint.MaxIdleTime = 60000
             'IntialSmtpClient.Timeout = 60000
@@ -843,7 +847,7 @@ Partial Class _Default
             'InitialMailMessage.From = New MailAddress("digitalunknownprotocol@gmail.com")
             'InitialMailMessage.To.Add(New MailAddress(EmailNotification))
             'InitialMailMessage.Subject = "Aquintences Request"
-            'InitialMailMessage.Body = ("http://www.unknownprotocol.me:8080/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to be an or know an Aquintences."
+            'InitialMailMessage.Body = ("~/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to be an or know an Aquintences."
             'Dim IntialSmtpClient = New SmtpClient("www.briandalesinger.me")
             'IntialSmtpClient.ServicePoint.MaxIdleTime = 60000
             'IntialSmtpClient.Timeout = 60000
@@ -881,7 +885,7 @@ Partial Class _Default
             'InitialMailMessage.From = New MailAddress("digitalunknownprotocol@gmail.com")
             'InitialMailMessage.To.Add(New MailAddress(EmailNotification))
             'InitialMailMessage.Subject = "The List Request"
-            'InitialMailMessage.Body = ("http://www.unknownprotocol.me:8080/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to be on or know the The List."
+            'InitialMailMessage.Body = ("~/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to be on or know the The List."
             'Dim IntialSmtpClient = New SmtpClient("www.briandalesinger.me")
             'IntialSmtpClient.ServicePoint.MaxIdleTime = 60000
             'IntialSmtpClient.Timeout = 60000
@@ -919,7 +923,7 @@ Partial Class _Default
             'InitialMailMessage.From = New MailAddress("digitalunknownprotocol@gmail.com")
             'InitialMailMessage.To.Add(New MailAddress(EmailNotification))
             'InitialMailMessage.Subject = "In The Know Request"
-            'InitialMailMessage.Body = ("http://www.unknownprotocol.me:8080/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to be In The Know."
+            'InitialMailMessage.Body = ("~/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to be In The Know."
             'Dim IntialSmtpClient = New SmtpClient("www.briandalesinger.me")
             'IntialSmtpClient.ServicePoint.MaxIdleTime = 60000
             'IntialSmtpClient.Timeout = 60000
@@ -957,7 +961,7 @@ Partial Class _Default
             'InitialMailMessage.From = New MailAddress("digitalunknownprotocol@gmail.com")
             'InitialMailMessage.To.Add(New MailAddress(EmailNotification))
             'InitialMailMessage.Subject = "Unknownprotocol Request"
-            'InitialMailMessage.Body = ("http://www.unknownprotocol.me:8080/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to Know."
+            'InitialMailMessage.Body = ("~/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to Know."
             'Dim IntialSmtpClient = New SmtpClient("www.briandalesinger.me")
             'IntialSmtpClient.ServicePoint.MaxIdleTime = 60000
             'IntialSmtpClient.Timeout = 60000
@@ -995,7 +999,7 @@ Partial Class _Default
             'InitialMailMessage.From = New MailAddress("digitalunknownprotocol@gmail.com")
             'InitialMailMessage.To.Add(New MailAddress(EmailNotification))
             'InitialMailMessage.Subject = "Unknownprotocol Request"
-            'InitialMailMessage.Body = ("http://www.unknownprotocol.me:8080/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to Knows Of."
+            'InitialMailMessage.Body = ("~/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to Knows Of."
             'Dim IntialSmtpClient = New SmtpClient("www.briandalesinger.me")
             'IntialSmtpClient.ServicePoint.MaxIdleTime = 60000
             'IntialSmtpClient.Timeout = 60000
@@ -1033,7 +1037,7 @@ Partial Class _Default
             'InitialMailMessage.From = New MailAddress("digitalunknownprotocol@gmail.com")
             'InitialMailMessage.To.Add(New MailAddress(EmailNotification))
             'InitialMailMessage.Subject = "Unknownprotocol Request"
-            'InitialMailMessage.Body = ("http://www.unknownprotocol.me:8080/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to be Friends."
+            'InitialMailMessage.Body = ("~/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to be Friends."
             'Dim IntialSmtpClient = New SmtpClient("www.briandalesinger.me")
             'IntialSmtpClient.ServicePoint.MaxIdleTime = 60000
             'IntialSmtpClient.Timeout = 60000
@@ -1071,7 +1075,7 @@ Partial Class _Default
             'InitialMailMessage.From = New MailAddress("digitalunknownprotocol@gmail.com")
             'InitialMailMessage.To.Add(New MailAddress(EmailNotification))
             'InitialMailMessage.Subject = "Unknownprotocol Request"
-            'InitialMailMessage.Body = ("http://www.unknownprotocol.me:8080/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to know who Want To Date."
+            'InitialMailMessage.Body = ("~/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to know who Want To Date."
             'Dim IntialSmtpClient = New SmtpClient("www.briandalesinger.me")
             'IntialSmtpClient.ServicePoint.MaxIdleTime = 60000
             'IntialSmtpClient.Timeout = 60000
@@ -1108,7 +1112,7 @@ Partial Class _Default
             'InitialMailMessage.From = New MailAddress("digitalunknownprotocol@gmail.com")
             'InitialMailMessage.To.Add(New MailAddress(EmailNotification))
             'InitialMailMessage.Subject = "Unknownprotocol Request"
-            'InitialMailMessage.Body = ("http://www.unknownprotocol.me:8080/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to know who is Dateing."
+            'InitialMailMessage.Body = ("~/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to know who is Dateing."
             'Dim IntialSmtpClient = New SmtpClient("www.briandalesinger.me")
             'IntialSmtpClient.ServicePoint.MaxIdleTime = 60000
             'IntialSmtpClient.Timeout = 60000
@@ -1147,7 +1151,7 @@ Partial Class _Default
             'InitialMailMessage.From = New MailAddress("digitalunknownprotocol@gmail.com")
             'InitialMailMessage.To.Add(New MailAddress(EmailNotification))
             'InitialMailMessage.Subject = "Unknownprotocol Request"
-            'InitialMailMessage.Body = ("http://www.unknownprotocol.me:8080/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to who is a Fiances."
+            'InitialMailMessage.Body = ("~/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to who is a Fiances."
             'Dim IntialSmtpClient = New SmtpClient("www.briandalesinger.me")
             'IntialSmtpClient.ServicePoint.MaxIdleTime = 60000
             'IntialSmtpClient.Timeout = 60000
@@ -1185,7 +1189,7 @@ Partial Class _Default
             'InitialMailMessage.From = New MailAddress("digitalunknownprotocol@gmail.com")
             'InitialMailMessage.To.Add(New MailAddress(EmailNotification))
             'InitialMailMessage.Subject = "Unknownprotocol Request"
-            'InitialMailMessage.Body = ("http://www.unknownprotocol.me:8080/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to who is a Fiancees."
+            'InitialMailMessage.Body = ("~/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to who is a Fiancees."
             'Dim IntialSmtpClient = New SmtpClient("www.briandalesinger.me")
             'IntialSmtpClient.ServicePoint.MaxIdleTime = 60000
             'IntialSmtpClient.Timeout = 60000
@@ -1223,7 +1227,7 @@ Partial Class _Default
             'InitialMailMessage.From = New MailAddress("digitalunknownprotocol@gmail.com")
             'InitialMailMessage.To.Add(New MailAddress(EmailNotification))
             'InitialMailMessage.Subject = "Unknownprotocol Request"
-            'InitialMailMessage.Body = ("http://www.unknownprotocol.me:8080/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to know who is Married."
+            'InitialMailMessage.Body = ("~/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to know who is Married."
             'Dim IntialSmtpClient = New SmtpClient("www.briandalesinger.me")
             'IntialSmtpClient.ServicePoint.MaxIdleTime = 60000
             'IntialSmtpClient.Timeout = 60000
@@ -1261,7 +1265,7 @@ Partial Class _Default
             'InitialMailMessage.From = New MailAddress("digitalunknownprotocol@gmail.com")
             'InitialMailMessage.To.Add(New MailAddress(EmailNotification))
             'InitialMailMessage.Subject = "Unknownprotocol Request"
-            'InitialMailMessage.Body = ("http://www.unknownprotocol.me:8080/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to know who is a Divorce."
+            'InitialMailMessage.Body = ("~/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to know who is a Divorce."
             'Dim IntialSmtpClient = New SmtpClient("www.briandalesinger.me")
             'IntialSmtpClient.ServicePoint.MaxIdleTime = 60000
             'IntialSmtpClient.Timeout = 60000
@@ -1299,7 +1303,7 @@ Partial Class _Default
             'InitialMailMessage.From = New MailAddress("digitalunknownprotocol@gmail.com")
             'InitialMailMessage.To.Add(New MailAddress(EmailNotification))
             'InitialMailMessage.Subject = "Unknownprotocol Request"
-            'InitialMailMessage.Body = ("http://www.unknownprotocol.me:8080/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to know who is a Divorcee."
+            'InitialMailMessage.Body = ("~/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to know who is a Divorcee."
             'Dim IntialSmtpClient = New SmtpClient("www.briandalesinger.me")
             'IntialSmtpClient.ServicePoint.MaxIdleTime = 60000
             'IntialSmtpClient.Timeout = 60000
@@ -1337,7 +1341,7 @@ Partial Class _Default
             'InitialMailMessage.From = New MailAddress("digitalunknownprotocol@gmail.com")
             'InitialMailMessage.To.Add(New MailAddress(EmailNotification))
             'InitialMailMessage.Subject = "Unknownprotocol Request"
-            'InitialMailMessage.Body = ("http://www.unknownprotocol.me:8080/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to know who is a Non Biological Family member."
+            'InitialMailMessage.Body = ("~/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to know who is a Non Biological Family member."
             'Dim IntialSmtpClient = New SmtpClient("www.briandalesinger.me")
             'IntialSmtpClient.ServicePoint.MaxIdleTime = 60000
             'IntialSmtpClient.Timeout = 60000
@@ -1375,7 +1379,7 @@ Partial Class _Default
             'InitialMailMessage.From = New MailAddress("digitalunknownprotocol@gmail.com")
             'InitialMailMessage.To.Add(New MailAddress(EmailNotification))
             'InitialMailMessage.Subject = "Unknownprotocol Request"
-            'InitialMailMessage.Body = ("http://www.unknownprotocol.me:8080/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to know who is Family."
+            'InitialMailMessage.Body = ("~/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to know who is Family."
             'Dim IntialSmtpClient = New SmtpClient("www.briandalesinger.me")
             'IntialSmtpClient.ServicePoint.MaxIdleTime = 60000
             'IntialSmtpClient.Timeout = 60000
@@ -1413,7 +1417,7 @@ Partial Class _Default
             'InitialMailMessage.From = New MailAddress("digitalunknownprotocol@gmail.com")
             'InitialMailMessage.To.Add(New MailAddress(EmailNotification))
             'InitialMailMessage.Subject = "Unknownprotocol Request"
-            'InitialMailMessage.Body = ("http://www.unknownprotocol.me:8080/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to be or know who has a Family Secret."
+            'InitialMailMessage.Body = ("~/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to be or know who has a Family Secret."
             'Dim IntialSmtpClient = New SmtpClient("www.briandalesinger.me")
             'IntialSmtpClient.ServicePoint.MaxIdleTime = 60000
             'IntialSmtpClient.Timeout = 60000
@@ -1451,7 +1455,7 @@ Partial Class _Default
             'InitialMailMessage.From = New MailAddress("digitalunknownprotocol@gmail.com")
             'InitialMailMessage.To.Add(New MailAddress(EmailNotification))
             'InitialMailMessage.Subject = "Unknownprotocol Request"
-            'InitialMailMessage.Body = ("http://www.unknownprotocol.me:8080/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to be or know who has a Family Secret."
+            'InitialMailMessage.Body = ("~/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to be or know who has a Family Secret."
             'Dim IntialSmtpClient = New SmtpClient("www.briandalesinger.me")
             'IntialSmtpClient.ServicePoint.MaxIdleTime = 60000
             'IntialSmtpClient.Timeout = 60000
@@ -1489,7 +1493,7 @@ Partial Class _Default
             'InitialMailMessage.From = New MailAddress("digitalunknownprotocol@gmail.com")
             'InitialMailMessage.To.Add(New MailAddress(EmailNotification))
             'InitialMailMessage.Subject = "Unknownprotocol Request"
-            'InitialMailMessage.Body = ("http://www.unknownprotocol.me:8080/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to mix and mingle."
+            'InitialMailMessage.Body = ("~/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to mix and mingle."
             'Dim IntialSmtpClient = New SmtpClient("www.briandalesinger.me")
             'IntialSmtpClient.ServicePoint.MaxIdleTime = 60000
             'IntialSmtpClient.Timeout = 60000
@@ -1615,35 +1619,35 @@ Partial Class _Default
         SecretRelationshipListView.DataBind()
         FamilySecretRelationshipListView.DataBind()
 
-        Dim InitialMailMessage = New MailMessage()
-        InitialMailMessage.IsBodyHtml = False
-        InitialMailMessage.From = New MailAddress("digitalunknownprotocol@gmail.com")
-        InitialMailMessage.To.Add(New MailAddress(EmailNotification))
-        InitialMailMessage.Subject = "Unknownprotocol Request"
-        InitialMailMessage.Body = ("http://www.unknownprotocol.me:8080/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to be an aquintences."
-        Dim IntialSmtpClient = New SmtpClient("www.briandalesinger.me")
-        IntialSmtpClient.ServicePoint.MaxIdleTime = 60000
-        IntialSmtpClient.Timeout = 60000
-        IntialSmtpClient.Send(InitialMailMessage)
+        'Dim InitialMailMessage = New MailMessage()
+        'InitialMailMessage.IsBodyHtml = False
+        'InitialMailMessage.From = New MailAddress("digitalunknownprotocol@gmail.com")
+        'InitialMailMessage.To.Add(New MailAddress(EmailNotification))
+        'InitialMailMessage.Subject = "Unknownprotocol Request"
+        'InitialMailMessage.Body = ("~/default.aspx?ID=" & RelationshipID) & " a request has been sent to you for you to be an aquintences."
+        'Dim IntialSmtpClient = New SmtpClient("www.briandalesinger.me")
+        'IntialSmtpClient.ServicePoint.MaxIdleTime = 60000
+        'IntialSmtpClient.Timeout = 60000
+        'IntialSmtpClient.Send(InitialMailMessage)
 
     End Sub
 
     Protected Sub btnMakeConnection_Click(sender As Object, e As EventArgs) Handles btnMakeConnection.Click
-        Response.Redirect("http://www.unknownprotocol.me:8080/status.aspx?ID=" & ID)
+        Response.Redirect("~/status.aspx?ID=" & ID)
         ' & "&IDSS=" & IDSS
     End Sub
     Protected Sub btnContact_Click(sender As Object, e As EventArgs) Handles btnContact.Click
-        Response.Redirect("http://www.unknownprotocol.me:8080/CreateContact.aspx?ID=" & ID)
+        Response.Redirect("~/CreateContact.aspx?ID=" & ID)
     End Sub
 
     Protected Sub btnViewStatus_Click(sender As Object, e As EventArgs) Handles btnViewStatus.Click
-        Response.Redirect("http://www.unknownprotocol.me:8080/contactinformation.aspx?ID=" & ID)
+        Response.Redirect("~/contactinformation.aspx?ID=" & ID)
     End Sub
 
     Protected Sub btnLogout_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnLogout.Click
 
         FormsAuthentication.SignOut()
-        Response.Redirect("http://www.unknownprotocol.me:8080/logon.aspx", True)
+        Response.Redirect("~/logon.aspx", True)
 
     End Sub
 
@@ -1667,17 +1671,17 @@ Partial Class _Default
 
         Connection.Close()
 
-        If DropDownList2.SelectedItem.Value = "" Then
+        Response.Redirect("~/unknownprotocol.aspx?ID=" & ID & "&IDSS=" & IDSS)
 
-            Response.Redirect("http://www.unknownprotocol.me:8080/unknownprotocol.aspx?ID=" & ID & "&IDSS=" & "0")
+        'If DropDownList2.SelectedItem.Value = "" Then
 
-            'Response.Redirect("http://www.unknownprotocol.me:8080/unknownprotocol.aspx?ID=" & Session("ID") & "&IDSS=" & "0")
+        'Response.Redirect("~/unknownprotocol.aspx?ID=" & Session("ID") & "&IDSS=" & "0")
 
-            'ElseIf DropDownList2.SelectedItem.Value = "" Then
+        'ElseIf DropDownList2.SelectedItem.Value = "" Then
 
-            'Response.Redirect("http://www.unknownprotocol.me:8080/unknownprotocol.aspx?ID=" & ID & "&IDSS=" & DropDownList2.SelectedItem.Value)
+        'Response.Redirect("~/unknownprotocol.aspx?ID=" & ID & "&IDSS=" & DropDownList2.SelectedItem.Value)
 
-        End If
+        'End If
 
     End Sub
 
@@ -1705,7 +1709,7 @@ Partial Class _Default
             Case "Home"
 
                 Dim Connection As SqlConnection = New SqlConnection(ConfigurationManager.ConnectionStrings("SqlDataSource1").ConnectionString)
-            Dim Cmd As SqlCommand = New SqlCommand("Select * from tblRegistered WHERE ID = '" & ID & "' ", Connection)
+                Dim Cmd As SqlCommand = New SqlCommand("Select * from tblRegistered WHERE ID = '" & ID & "' ", Connection)
                 Dim DA As SqlDataAdapter = New SqlDataAdapter()
 
                 DA.SelectCommand = Cmd
@@ -1721,10 +1725,10 @@ Partial Class _Default
 
                 Connection.Close()
 
-            If IDHome = ID Then
-                Response.Redirect("~/default.aspx?ID=" & ID)
-            End If
-            Exit Select
+                If IDHome = ID Then
+                    Response.Redirect("~/default.aspx?ID=" & ID)
+                End If
+                Exit Select
 
             Case "Contacts"
 
@@ -1744,7 +1748,7 @@ Partial Class _Default
     End Sub
     Protected Sub btnSearch_Click(sender As Object, e As EventArgs) Handles btnSearch.Click
 
-        Response.Redirect("http://www.unknownprotocol.me:8080/search.aspx?ID=" & ID)
+        Response.Redirect("~/search.aspx?ID=" & ID)
 
     End Sub
 End Class

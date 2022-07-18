@@ -254,7 +254,7 @@ Partial Class PrivateChat
 
         SqlDataSource1.Insert()
 
-        'Response.Redirect("http://www.unknownprotocol.us:8080/status.aspx?ID=" & ID)
+        'Response.Redirect("~/status.aspx?ID=" & ID)
 
         ' ScriptManager.RegisterClientScriptBlock(Page, GetType(Page), "close", "window.close();", True)
 
@@ -262,6 +262,6 @@ Partial Class PrivateChat
 
     Protected Sub btnLogout_Click(sender As Object, e As EventArgs) Handles btnLogout.Click
         FormsAuthentication.SignOut()
-        Response.Redirect("http://www.unknownprotocol.us:8080/logon.aspx", True)
+        Response.Redirect("~/logon.aspx", True)
     End Sub
 End Class

@@ -123,19 +123,17 @@ Partial Class Registration
         ' Append the name of the file to upload to the path.
         savePath += fileName
 
+        Dim uri As Uri = Context.Request.Url
+        Dim uriPath = uri.Scheme & Uri.SchemeDelimiter & uri.Host & ":" & uri.Port & "/postimages/"
+
         If FileUpload.FileName = "" Then
 
-            savePath = "http://www.unknownprotocol.us:8080/postimages/Null.jpg"
-
-        Else
-
-            savePath = "http://www.unknownprotocol.us:8080/postimages/"
-
+            savePath = uriPath & "Null.jpg"
 
         End If
 
 
-        DateTime = Date.Now
+        DateTime = Date.Now.ToString("yyyy-MM-dd HH:mm:ss")
 
         RegisterInsert.InsertParameters.Add("FollowUnFollow", "Unfollow")
         RegisterInsert.InsertParameters.Add("DateTime", DateTime)
@@ -199,7 +197,7 @@ Partial Class Registration
     End Sub
 
     Protected Sub btnLogout_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnLogout.Click
-        Response.Redirect("http://www.unknownprotocol.us:8080/logon.aspx")
+        Response.Redirect("~/logon.aspx")
     End Sub
 
     Private Sub NavigationMenu_MenuItemClick(sender As Object, e As MenuEventArgs) Handles NavigationMenu.MenuItemClick

@@ -1350,19 +1350,19 @@ Partial Class Status
     Protected Sub btnLogout_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnLogout.Click
 
         FormsAuthentication.SignOut()
-        Response.Redirect("http://localhost/logon.aspx", True)
+        Response.Redirect("~/logon.aspx", True)
 
     End Sub
 
     Protected Sub btnProfile_Click(sender As Object, e As EventArgs) Handles btnProfile.Click
-        Response.Redirect("http://localhost/test1.aspx?ID=" & ID)
+        Response.Redirect("~/test1.aspx?ID=" & ID)
     End Sub
 
     Protected Sub btnUpdateProfile_Click(sender As Object, e As EventArgs) Handles btnUpdateProfile.Click
-        Response.Redirect("http://localhost/userupdate.aspx?ID=" & ID)
+        Response.Redirect("~/userupdate.aspx?ID=" & ID)
     End Sub
 
     Protected Sub btnViewStatus_Click(sender As Object, e As EventArgs) Handles btnViewStatus.Click
-        Response.Redirect("http://localhost/userinformation.aspx?ID=" & ID)
+        Response.Redirect("~/userinformation.aspx?ID=" & ID)
     End Sub
 End Class

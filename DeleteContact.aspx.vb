@@ -139,7 +139,7 @@ Partial Class DeleteContact
     Protected Sub btnLogout_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnLogout.Click
 
         FormsAuthentication.SignOut()
-        Response.Redirect("http://www.unknownprotocol.us:8080/logon.aspx", True)
+        Response.Redirect("~/logon.aspx", True)
 
     End Sub
     Protected Sub NavigationMenu_MenuItemClick(sender As Object, e As MenuEventArgs) Handles NavigationMenu.MenuItemClick

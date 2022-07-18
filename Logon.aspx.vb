@@ -111,7 +111,7 @@ Partial Class Logon
 
                 Session("ID") = ID
                 'Response.Redirect("/unknownprotocol.aspx?ID=" & ID)
-                Response.Redirect("/unknownprotocol.aspx?ID=" & ID)
+                Response.Redirect("/default.aspx?ID=" & ID)
             Next
 
             Connection.Close()

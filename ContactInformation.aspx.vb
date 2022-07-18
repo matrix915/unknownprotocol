@@ -110,23 +110,23 @@ Partial Class ContactInformation
 
     'End If
 
-    'Response.Redirect("http://www.unknownprotocol.us:8080/default.aspx?ID=" & ID)
+    'Response.Redirect("~/default.aspx?ID=" & ID)
 
     'End Sub
 
     Protected Sub btnUpdate_Click(sender As Object, e As System.EventArgs) Handles btnUpdate.Click
-        Response.Redirect("http://www.unknownprotocol.us:8080/UpdateContact.aspx?ID=" & ID)
+        Response.Redirect("~/UpdateContact.aspx?ID=" & ID)
     End Sub
 
     Protected Sub btnGoBack_Click(sender As Object, e As System.EventArgs) Handles btnGoBack.Click
-        Response.Redirect("http://www.unknownprotocol.us:8080/default.aspx?ID=" & ID)
+        Response.Redirect("~/default.aspx?ID=" & ID)
     End Sub
     'Protected Sub btnCreateInfo_Click(sender As Object, e As EventArgs) Handles btnCreateInfo.Click
-    'Response.Redirect("http://www.unknownprotocol.us:8080/CreateContact.aspx?ID=" & ID)
+    'Response.Redirect("~/CreateContact.aspx?ID=" & ID)
     'End Sub
     Protected Sub btnLogout_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnLogout.Click
         FormsAuthentication.SignOut()
-        Response.Redirect("http://www.unknownprotocol.us:8080/logon.aspx?ID=" & ID, True)
+        Response.Redirect("~/logon.aspx?ID=" & ID, True)
     End Sub
 End Class
 

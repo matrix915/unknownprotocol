@@ -449,13 +449,15 @@ Partial Class unknownprotocol
     Protected Sub btnLogout_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnLogout.Click
 
         FormsAuthentication.SignOut()
-        Response.Redirect("http://www.unknownprotocol.me:8080/logon.aspx", True)
+        Response.Redirect("~/logon.aspx", True)
 
     End Sub
 
 
     Protected Sub NavigationMenu_MenuItemClick(sender As Object, e As MenuEventArgs) Handles NavigationMenu.MenuItemClick
         Select Case e.Item.Text
+            Case "Home"
+                Response.Redirect("~/Default.aspx?ID=" & ID)
             Case "User Update"
                 Response.Redirect("~/test2.aspx?ID=" & ID)
                 Exit Select

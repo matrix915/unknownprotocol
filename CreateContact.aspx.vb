@@ -155,8 +155,12 @@ Partial Class CreateContact
         If FileUpload.FileName = "" Then
             savePath = URLOFPicture
         Else
-            savePath = "http://www.unknownprotocol.us:8080/postimages/"
+            Dim uri As Uri = Context.Request.Url
+            savePath = uri.Scheme & Uri.SchemeDelimiter & uri.Host & ":" & uri.Port & "/postimages/"
+            'savePath = "http://www.unknownprotocol.us:8080/postimages/"
         End If
+
+
 
         ' Before attempting to save the file, verify
         ' that the FileUpload control contains a file.
@@ -168,7 +172,7 @@ Partial Class CreateContact
 
         Connection.Close()
 
-        Dim UpdateConnection As SqlConnection = New SqlConnection("Data Source=WIN-CKMGSD9EMJT\UNKNOWNPROTOCOL;Initial Catalog=Registration;Integrated Security=True;uid=sa;password=1A@brian@A1;")
+        Dim UpdateConnection As SqlConnection = New SqlConnection(ConfigurationManager.ConnectionStrings("SqlDataSource1").ConnectionString)
         Dim UpdateCmd As SqlCommand = New SqlCommand("Select * from tblRegistered WHERE ID = '" & ID & "'", UpdateConnection)
 
         Dim UpdateDA As SqlDataAdapter = New SqlDataAdapter
@@ -189,7 +193,7 @@ Partial Class CreateContact
 
             UpdateConnection.Close()
 
-            Dim RelationshipConnection As SqlConnection = New SqlConnection("Data Source=WIN-CKMGSD9EMJT\UNKNOWNPROTOCOL;Initial Catalog=Registration;Integrated Security=True;uid=sa;password=1A@brian@A1;")
+            Dim RelationshipConnection As SqlConnection = New SqlConnection(ConfigurationManager.ConnectionStrings("SqlDataSource1").ConnectionString)
             Dim RelationshipCmd As SqlCommand = New SqlCommand("Select * from tblUpdateRegistered  WHERE RelationshipID = '" & ID & "'", RelationshipConnection)
 
             Dim RelationshipDA As SqlDataAdapter = New SqlDataAdapter
@@ -227,7 +231,7 @@ Partial Class CreateContact
                 RegisteredInsert.InsertParameters.Add("Associations", Relationship)
                 'RegisteredInsert.InsertParameters.Add("Emotions", ddlEmotions.Text)
                 RegisteredInsert.InsertParameters.Add("Email", Session("Email"))
-                RegisteredInsert.InsertParameters.Add("DateTime", Date.Now)
+                RegisteredInsert.InsertParameters.Add("DateTime", Date.Now.ToString("yyyy-MM-dd HH:mm:ss"))
                 RegisteredInsert.Insert()
 
                 'RegisteredUpdate1.UpdateParameters.Add("FirstName", txtFirstName.Text)
@@ -257,21 +261,21 @@ Partial Class CreateContact
 
             End If
 
-            Response.Redirect("http://www.unknownprotocol.us:8080/default.aspx?ID=" & ID)
+            Response.Redirect("~/default.aspx?ID=" & ID)
 
         Next
     End Sub
 
     Protected Sub btnGoBack_Click(sender As Object, e As System.EventArgs) Handles btnGoBack.Click
 
-        Response.Redirect("http://www.unknownprotocol.us:8080/default.aspx?ID=" & ID)
+        Response.Redirect("~/default.aspx?ID=" & ID)
 
     End Sub
 
     Protected Sub btnLogout_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnLogout.Click
 
         FormsAuthentication.SignOut()
-        Response.Redirect("http://www.unknownprotocol.us:8080/logon.aspx", True)
+        Response.Redirect("~/logon.aspx", True)
 
     End Sub
 
